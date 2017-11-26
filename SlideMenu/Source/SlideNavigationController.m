@@ -114,30 +114,31 @@ static SlideNavigationController *singletonInstance;
 
 - (void)setup
 {
-	if (singletonInstance)
-		NSLog(@"Singleton instance already exists. You can only instantiate one instance of SlideNavigationController. This could cause major issues");
-	
-	singletonInstance = self;
-	
-	self.menuRevealAnimationDuration = MENU_SLIDE_ANIMATION_DURATION;
-	self.menuRevealAnimationOption = MENU_SLIDE_ANIMATION_OPTION;
-	self.landscapeSlideOffset = MENU_DEFAULT_SLIDE_OFFSET;
-	self.portraitSlideOffset = MENU_DEFAULT_SLIDE_OFFSET;
-	self.panGestureSideOffset = 0;
-	self.avoidSwitchingToSameClassViewController = YES;
-	self.enableShadow = YES;
-	self.enableSwipeGesture = YES;
-	self.delegate = self;
+    [[NSUserDefaults standardUserDefaults] setObject:nil forKey:@"ssidName"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    if (singletonInstance)
+    NSLog(@"Singleton instance already exists. You can only instantiate one instance of SlideNavigationController. This could cause major issues");
+    
+    singletonInstance = self;
+    
+    self.menuRevealAnimationDuration = MENU_SLIDE_ANIMATION_DURATION;
+    self.menuRevealAnimationOption = MENU_SLIDE_ANIMATION_OPTION;
 }
 
 - (void)viewWillLayoutSubviews
 {
-	[super viewWillLayoutSubviews];
-	
-	// Update shadow size of enabled
-	if (self.enableShadow)
-		self.view.layer.shadowPath = [UIBezierPath bezierPathWithRect:self.view.bounds].CGPath;
+    [super viewWillLayoutSubviews];
     
+    // Update shadow size of enabled
+    if (self.enableShadow)
+    self.view.layer.shadowPath = [UIBezierPath bezierPathWithRect:self.view.bounds].CGPath;
+    self.landscapeSlideOffset = self.view.frame.size.width/6;
+    self.portraitSlideOffset = self.view.frame.size.width/6;
+    self.panGestureSideOffset = 0;
+    self.avoidSwitchingToSameClassViewController = YES;
+    self.enableShadow = YES;
+    self.enableSwipeGesture = NO;
+    self.delegate = self;
     // When menu open we disable user interaction
     // When rotates we want to make sure that userInteraction is enabled again
     [self enableTapGestureToCloseMenu:NO];

@@ -129,6 +129,15 @@ static SlideNavigationController *singletonInstance;
 {
     [super viewWillLayoutSubviews];
     
+    for (UIView *aView in self.navigationBar.subviews)
+    {
+        if ([aView isKindOfClass:NSClassFromString(@"_UINavigationBarContentView")])
+        {
+            aView.frame = CGRectMake(0, 0, aView.frame.size.width, aView.frame.size.height);
+            aView.clipsToBounds = YES;
+        }
+    }
+    
     // Update shadow size of enabled
     if (self.enableShadow)
     self.view.layer.shadowPath = [UIBezierPath bezierPathWithRect:self.view.bounds].CGPath;
@@ -136,7 +145,7 @@ static SlideNavigationController *singletonInstance;
     self.portraitSlideOffset = self.view.frame.size.width/6;
     self.panGestureSideOffset = 0;
     self.avoidSwitchingToSameClassViewController = YES;
-    self.enableShadow = NO;
+    self.enableShadow = YES;
     self.enableSwipeGesture = NO;
     self.delegate = self;
     // When menu open we disable user interaction

@@ -136,7 +136,7 @@ static SlideNavigationController *singletonInstance;
     self.portraitSlideOffset = self.view.frame.size.width/6;
     self.panGestureSideOffset = 0;
     self.avoidSwitchingToSameClassViewController = YES;
-    self.enableShadow = YES;
+    self.enableShadow = NO;
     self.enableSwipeGesture = NO;
     self.delegate = self;
     // When menu open we disable user interaction
